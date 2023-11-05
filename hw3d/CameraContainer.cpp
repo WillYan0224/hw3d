@@ -8,6 +8,8 @@ void CameraContainer::SpawnWindow( Graphics& gfx )
 {
 	if( ImGui::Begin( "Cameras" ) )
 	{
+		ImGuiIO& io = ImGui::GetIO(); (void)io;
+		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
 		if( ImGui::BeginCombo( "Active Camera",(*this)->GetName().c_str() ) )
 		{
 			for( int i = 0; i < std::size( cameras ); i++ )

@@ -71,7 +71,9 @@ namespace Rgph
 		{
 			using namespace DirectX;
 
-			const auto pos = XMLoadFloat3( &pShadowCamera->GetPos() );
+			//const auto pos = XMLoadFloat3( &pShadowCamera->GetPos() );
+			auto pos = pShadowCamera->GetPos();
+			auto vPos = XMLoadFloat3(&pos);
 
 			gfx.SetProjection( XMLoadFloat4x4( &projection ) );
 			for( size_t i = 0; i < 6; i++ )
@@ -79,8 +81,8 @@ namespace Rgph
 				auto d = pDepthCube->GetDepthBuffer( i );
 				d->Clear( gfx );
 				SetDepthBuffer( std::move( d ) );
-				const auto lookAt = pos + XMLoadFloat3( &cameraDirections[i] );
-				gfx.SetCamera( XMMatrixLookAtLH( pos,lookAt,XMLoadFloat3( &cameraUps[i] ) ) );
+				const auto lookAt = vPos + XMLoadFloat3( &cameraDirections[i] );
+				gfx.SetCamera( XMMatrixLookAtLH( vPos,lookAt,XMLoadFloat3( &cameraUps[i] ) ) );
 				RenderQueuePass::Execute( gfx );
 			}
 		}
